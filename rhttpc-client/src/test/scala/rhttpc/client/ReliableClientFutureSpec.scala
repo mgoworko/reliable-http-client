@@ -15,9 +15,9 @@
  */
 package rhttpc.client
 
-import akka.actor.ActorSystem
-import akka.testkit.TestKit
-import akka.util.Timeout
+import org.apache.pekko.actor.ActorSystem
+import org.apache.pekko.testkit.TestKit
+import org.apache.pekko.util.Timeout
 import org.scalatest.matchers.should.Matchers
 
 import scala.concurrent.duration._

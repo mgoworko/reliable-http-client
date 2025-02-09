@@ -15,8 +15,8 @@
  */
 package rhttpc.client.consume
 
-import akka.actor._
-import akka.pattern._
+import org.apache.pekko.actor._
+import org.apache.pekko.pattern._
 import rhttpc.utils.Recovered
 import Recovered._
 import rhttpc.client._

@@ -15,8 +15,8 @@
  */
 package rhttpc.client
 
-import akka.actor.{ActorRef, ActorSystem, Props}
-import akka.testkit._
+import org.apache.pekko.actor.{ActorRef, ActorSystem, Props}
+import org.apache.pekko.testkit._
 import org.scalatest.matchers.should.Matchers
 import rhttpc.client.subscription._
 

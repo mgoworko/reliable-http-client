@@ -15,8 +15,8 @@
  */
 package rhttpc.transport.inmem
 
-import akka.actor.{ActorSystem, Status}
-import akka.testkit.{TestKit, TestProbe}
+import org.apache.pekko.actor.{ActorSystem, Status}
+import org.apache.pekko.testkit.{TestKit, TestProbe}
 import org.scalatest._
 import org.scalatest.flatspec.FixtureAnyFlatSpecLike
 import rhttpc.transport.PubSubTransport

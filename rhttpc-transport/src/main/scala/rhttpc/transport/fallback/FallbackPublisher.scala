@@ -15,8 +15,8 @@
  */
 package rhttpc.transport.fallback
 
-import akka.actor.{ActorSystem, Scheduler}
-import akka.pattern.CircuitBreaker
+import org.apache.pekko.actor.{ActorSystem, Scheduler}
+import org.apache.pekko.pattern.CircuitBreaker
 import org.slf4j.LoggerFactory
 import rhttpc.transport.{Message, Publisher}
 

@@ -15,7 +15,7 @@
  */
 package rhttpc.transport.amqp
 
-import akka.actor._
+import org.apache.pekko.actor._
 import rhttpc.utils.Agent
 import com.rabbitmq.client.AMQP.Queue.DeclareOk
 import com.rabbitmq.client.{AMQP, Channel, Connection}

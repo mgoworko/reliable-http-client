@@ -15,7 +15,7 @@
  */
 package rhttpc.transport.fallback
 
-import akka.actor.{ActorRef, ActorSystem}
+import org.apache.pekko.actor.{ActorRef, ActorSystem}
 import rhttpc.transport._
 
 import scala.concurrent.Future

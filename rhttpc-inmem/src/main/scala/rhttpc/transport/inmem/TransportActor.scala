@@ -15,7 +15,7 @@
  */
 package rhttpc.transport.inmem
 
-import akka.actor.{Actor, Props, Status}
+import org.apache.pekko.actor.{Actor, Props, Status}
 
 import scala.util.control.NonFatal
 

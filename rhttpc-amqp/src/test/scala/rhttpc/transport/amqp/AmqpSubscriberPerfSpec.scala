@@ -15,13 +15,13 @@
  */
 package rhttpc.transport.amqp
 
-import akka.Done
-import akka.actor.{Actor, ActorSystem, Props}
-import akka.http.scaladsl.Http
-import akka.http.scaladsl.model.{HttpRequest, HttpResponse}
-import akka.pattern._
-import akka.stream.Materializer
-import akka.testkit.{TestKit, TestProbe}
+import org.apache.pekko.Done
+import org.apache.pekko.actor.{Actor, ActorSystem, Props}
+import org.apache.pekko.http.scaladsl.Http
+import org.apache.pekko.http.scaladsl.model.{HttpRequest, HttpResponse}
+import org.apache.pekko.pattern._
+import org.apache.pekko.stream.Materializer
+import org.apache.pekko.testkit.{TestKit, TestProbe}
 import dispatch.url
 import org.scalatest.{BeforeAndAfterAll, Ignore}
 import org.scalatest.flatspec.AnyFlatSpecLike
@@ -35,7 +35,7 @@ import scala.util.{Random, Try}
 class AmqpSubscriberPerfSpec extends TestKit(ActorSystem("AmqpSubscriberPerfSpec")) with AnyFlatSpecLike with BeforeAndAfterAll {
   import system.dispatcher
 
-  implicit val materializer: Materializer = akka.stream.Materializer.matFromSystem
+  implicit val materializer: Materializer = org.apache.pekko.stream.Materializer.matFromSystem
 
   implicit def serializer[Msg]: Serializer[Msg] = (obj: Msg) => obj.toString
 

@@ -16,9 +16,9 @@
 package rhttpc.client.subscription
 
 import java.util.concurrent.TimeoutException
-import akka.actor._
-import akka.pattern._
-import akka.util.Timeout
+import org.apache.pekko.actor._
+import org.apache.pekko.pattern._
+import org.apache.pekko.util.Timeout
 import rhttpc.utils.Recovered
 import Recovered._
 import rhttpc.client._

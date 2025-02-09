@@ -17,7 +17,7 @@ package rhttpc.transport.amqp
 
 import java.util.concurrent.TimeUnit
 
-import akka.actor.ActorSystem
+import org.apache.pekko.actor.ActorSystem
 import com.rabbitmq.client.{Connection, ConnectionFactory}
 import net.ceedubs.ficus.Ficus._
 import net.ceedubs.ficus.readers.ArbitraryTypeReader

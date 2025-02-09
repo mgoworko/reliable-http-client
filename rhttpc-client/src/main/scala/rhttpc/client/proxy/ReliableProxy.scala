@@ -17,8 +17,8 @@ package rhttpc.client.proxy
 
 import java.time.Instant
 
-import akka.actor._
-import akka.pattern._
+import org.apache.pekko.actor._
+import org.apache.pekko.pattern._
 import org.slf4j.LoggerFactory
 import rhttpc.client._
 import rhttpc.client.config.ConfigParser

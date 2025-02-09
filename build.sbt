@@ -70,8 +70,8 @@ val publishSettings = Seq(
   }
 )
 
-val akkaV             = "2.6.21"
-val akkaHttpV         = "10.2.10"
+val pekkoV            = "1.1.3"
+val pekkoHttpV        = "1.1.0"
 val amqpcV            = "3.6.6"
 val betterFilesV      = "3.9.2"
 val commonsIoV        = "2.18.0"
@@ -94,7 +94,7 @@ lazy val transport = (project in file("rhttpc-transport")).
     name := "rhttpc-transport",
     libraryDependencies ++= {
       Seq(
-        "com.typesafe.akka"        %% "akka-actor"                    % akkaV,
+        "org.apache.pekko"         %% "pekko-actor"                   % pekkoV,
         "org.slf4j"                 % "slf4j-api"                     % slf4jV,
         "org.scala-stm"            %% "scala-stm"                     % scalaStmV,
         "org.scalatest"            %% "scalatest"                     % scalaTestV    % "test"
@@ -109,9 +109,9 @@ lazy val inMemTransport = (project in file("rhttpc-inmem")).
     name := "rhttpc-inmem",
     libraryDependencies ++= {
       Seq(
-        "com.typesafe.akka"        %% "akka-testkit"                  % akkaV         % "test",
+        "org.apache.pekko"         %% "pekko-testkit"                 % pekkoV         % "test",
         "org.scalatest"            %% "scalatest"                     % scalaTestV    % "test",
-        "com.typesafe.akka"        %% "akka-slf4j"                    % akkaV         % "test",
+        "org.apache.pekko"         %% "pekko-slf4j"                   % pekkoV         % "test",
         "ch.qos.logback"            % "logback-classic"               % logbackV      % "test"
       )
     }
@@ -125,17 +125,17 @@ lazy val amqpTransport = (project in file("rhttpc-amqp")).
     name := "rhttpc-amqp",
     libraryDependencies ++= {
       Seq(
-        "com.typesafe.akka"        %% "akka-stream"                   % akkaV,
+        "org.apache.pekko"         %% "pekko-stream"                  % pekkoV,
         "com.rabbitmq"              % "amqp-client"                   % amqpcV,
         "com.iheart"               %% "ficus"                         % ficusV,
         "org.scala-lang"            % "scala-reflect"                 % scalaVersion.value,
-        "com.typesafe.akka"        %% "akka-testkit"                  % akkaV         % "test",
+        "org.apache.pekko"         %% "pekko-testkit"                 % pekkoV         % "test",
         "org.scalatest"            %% "scalatest"                     % scalaTestV    % "test",
 
         "org.dispatchhttp"         %% "dispatch-core"                 % dispatchV     % "test",
-        "com.typesafe.akka"        %% "akka-slf4j"                    % akkaV         % "test",
+        "org.apache.pekko"         %% "pekko-slf4j"                   % pekkoV         % "test",
         "ch.qos.logback"            % "logback-classic"               % logbackV      % "test",
-        "com.typesafe.akka"        %% "akka-http"                     % akkaHttpV     % "test"
+        "org.apache.pekko"         %% "pekko-http"                    % pekkoHttpV     % "test"
       )
     }
   ).
@@ -167,9 +167,9 @@ lazy val client = (project in file("rhttpc-client")).
     libraryDependencies ++= {
       Seq(
         "com.iheart"               %% "ficus"                         % ficusV,
-        "com.typesafe.akka"        %% "akka-testkit"                  % akkaV         % "test",
+        "org.apache.pekko"         %% "pekko-testkit"                 % pekkoV         % "test",
         "org.scalatest"            %% "scalatest"                     % scalaTestV    % "test",
-        "com.typesafe.akka"        %% "akka-slf4j"                    % akkaV         % "test",
+        "org.apache.pekko"         %% "pekko-slf4j"                   % pekkoV         % "test",
         "ch.qos.logback"            % "logback-classic"               % logbackV      % "test"
       )
     }
@@ -184,9 +184,9 @@ lazy val sampleEcho = (project in file("sample/sample-echo")).
   settings(
     libraryDependencies ++= {
       Seq(
-        "com.typesafe.akka"        %% "akka-http"                     % akkaHttpV,
-        "com.typesafe.akka"        %% "akka-slf4j"                    % akkaV,
-        "com.typesafe.akka"        %% "akka-stream"                   % akkaV,
+        "org.apache.pekko"         %% "pekko-http"                    % pekkoHttpV,
+        "org.apache.pekko"         %% "pekko-slf4j"                   % pekkoV,
+        "org.apache.pekko"         %% "pekko-stream"                  % pekkoV,
         "ch.qos.logback"            % "logback-classic"               % logbackV,
         "org.scalatest"            %% "scalatest"                     % scalaTestV    % "test"
       )

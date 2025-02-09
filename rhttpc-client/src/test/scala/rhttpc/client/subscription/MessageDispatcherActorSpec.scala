@@ -17,8 +17,8 @@ package rhttpc.client.subscription
 
 import java.util.UUID
 
-import akka.actor.{ActorSystem, Props}
-import akka.testkit.{ImplicitSender, TestKit, TestProbe}
+import org.apache.pekko.actor.{ActorSystem, Props}
+import org.apache.pekko.testkit.{ImplicitSender, TestKit, TestProbe}
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.flatspec.AnyFlatSpecLike
 import rhttpc.client.protocol.{Correlated, SuccessExchange}

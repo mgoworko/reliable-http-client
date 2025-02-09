@@ -15,7 +15,7 @@
  */
 package rhttpc.transport
 
-import akka.actor.ActorRef
+import org.apache.pekko.actor.ActorRef
 
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.Try

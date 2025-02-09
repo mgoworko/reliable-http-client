@@ -15,7 +15,7 @@
  */
 package rhttpc.client
 
-import akka.testkit.TestKit
+import org.apache.pekko.testkit.TestKit
 import org.scalatest._
 import org.scalatest.flatspec.FixtureAnyFlatSpecLike
 

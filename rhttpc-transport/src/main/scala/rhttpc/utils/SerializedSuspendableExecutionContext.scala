@@ -10,7 +10,7 @@ import scala.annotation.{ switch, tailrec }
 import scala.concurrent.ExecutionContext
 import scala.util.control.NonFatal
 
-import akka.dispatch.AbstractNodeQueue
+import org.apache.pekko.dispatch.AbstractNodeQueue
 
 private[utils] object SerializedSuspendableExecutionContext {
   final val Off = 0

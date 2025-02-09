@@ -15,10 +15,10 @@
  */
 package rhttpc.transport.amqp
 
-import akka.actor._
+import org.apache.pekko.actor._
 import rhttpc.utils.Agent
-import akka.pattern._
-import akka.util.Timeout
+import org.apache.pekko.pattern._
+import org.apache.pekko.util.Timeout
 import com.rabbitmq.client._
 import org.slf4j.LoggerFactory
 import rhttpc.transport._

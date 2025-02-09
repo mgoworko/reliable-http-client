@@ -26,7 +26,7 @@ libraryDependencies += "org.rhttpc" %% "rhttpc-json4s" % "0.9.0"
 
 Then:
 ```scala
-import akka.actor._
+import org.apache.pekko.actor._
 import rhttpc.transport.amqp._
 import rhttpc.transport.json4s._
 import rhttpc.transport.json4s.CommonFormats._
@@ -61,7 +61,7 @@ libraryDependencies += "org.rhttpc" %% "rhttpc-client" % "0.9.0"
 ### In-only scenario
 
 ```scala
-import akka.actor._
+import org.apache.pekko.actor._
 import rhttpc.transport.amqp._
 import rhttpc.transport.json4s._
 import rhttpc.transport.json4s.CommonFormats._
@@ -78,7 +78,7 @@ AmqpConnectionFactory.connect(actorSystem).map { implicit connection =>
 ### In-out with stateless consumer
 
 ```scala
-import akka.actor._
+import org.apache.pekko.actor._
 import rhttpc.transport.amqp._
 import rhttpc.transport.json4s._
 import rhttpc.transport.json4s.CommonFormats._

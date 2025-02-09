@@ -15,9 +15,9 @@
  */
 package rhttpc.client
 
-import akka.actor.ActorRef
-import akka.pattern._
-import akka.util.Timeout
+import org.apache.pekko.actor.ActorRef
+import org.apache.pekko.pattern._
+import org.apache.pekko.util.Timeout
 import rhttpc.client.protocol.{Correlated, FailureExchange, SuccessExchange}
 import rhttpc.transport._
 

@@ -15,12 +15,12 @@
  */
 package rhttpc.echo
 
-import akka.actor.ActorSystem
+import org.apache.pekko.actor.ActorSystem
 import rhttpc.utils.Agent
-import akka.http.scaladsl.Http
-import akka.http.scaladsl.server._
-import akka.pattern._
-import akka.stream.Materializer
+import org.apache.pekko.http.scaladsl.Http
+import org.apache.pekko.http.scaladsl.server._
+import org.apache.pekko.pattern._
+import org.apache.pekko.stream.Materializer
 
 import scala.annotation.nowarn
 import scala.concurrent.Future
@@ -29,7 +29,7 @@ import scala.concurrent.duration._
 object EchoApp extends App with Directives {
 
   implicit val system: ActorSystem = ActorSystem("rhttpc-echo")
-  implicit val materializer: Materializer = akka.stream.Materializer.matFromSystem
+  implicit val materializer: Materializer = org.apache.pekko.stream.Materializer.matFromSystem
   import system.dispatcher
 
   @nowarn val retryAgent = Agent(Map.empty[String, Int])

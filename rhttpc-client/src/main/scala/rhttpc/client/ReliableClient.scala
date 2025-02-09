@@ -17,7 +17,7 @@ package rhttpc.client
 
 import java.util.UUID
 
-import akka.actor._
+import org.apache.pekko.actor._
 import org.slf4j.LoggerFactory
 import rhttpc.client.config.ConfigParser
 import rhttpc.client.consume.MessageConsumerFactory

@@ -15,7 +15,7 @@
  */
 package rhttpc.transport.amqpjdbc
 
-import akka.actor.{Cancellable, Scheduler}
+import org.apache.pekko.actor.{Cancellable, Scheduler}
 import org.slf4j.LoggerFactory
 import rhttpc.transport.SerializingPublisher.SerializedMessage
 import rhttpc.transport._

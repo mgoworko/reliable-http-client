@@ -15,7 +15,7 @@
  */
 package rhttpc.client.subscription
 
-import akka.actor.Actor
+import org.apache.pekko.actor.Actor
 
 trait PublicationListener extends Actor {
   def subscriptionPromiseRegistered(sub: SubscriptionOnResponse): Unit

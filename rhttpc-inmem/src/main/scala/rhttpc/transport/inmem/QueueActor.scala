@@ -15,10 +15,10 @@
  */
 package rhttpc.transport.inmem
 
-import akka.pattern._
-import akka.actor.{Actor, ActorLogging, ActorRef, Props, Stash}
-import akka.routing.{RoundRobinRoutingLogic, Routee, Router}
-import akka.util.Timeout
+import org.apache.pekko.pattern._
+import org.apache.pekko.actor.{Actor, ActorLogging, ActorRef, Props, Stash}
+import org.apache.pekko.routing.{RoundRobinRoutingLogic, Routee, Router}
+import org.apache.pekko.util.Timeout
 import rhttpc.transport.{Message, RejectingMessage}
 
 import scala.concurrent.Future

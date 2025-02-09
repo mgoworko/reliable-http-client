@@ -15,7 +15,7 @@
  */
 package rhttpc.transport
 
-import akka.actor.ActorSystem
+import org.apache.pekko.actor.ActorSystem
 
 package object inmem {
 

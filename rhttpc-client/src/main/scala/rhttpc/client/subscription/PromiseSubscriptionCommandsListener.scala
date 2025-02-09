@@ -15,7 +15,7 @@
  */
 package rhttpc.client.subscription
 
-import akka.actor.{Actor, Props, Status}
+import org.apache.pekko.actor.{Actor, Props, Status}
 
 import scala.concurrent.Promise
 

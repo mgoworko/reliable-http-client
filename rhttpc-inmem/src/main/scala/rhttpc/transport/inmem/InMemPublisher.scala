@@ -15,7 +15,7 @@
  */
 package rhttpc.transport.inmem
 
-import akka.actor.{ActorRef, ActorSystem}
+import org.apache.pekko.actor.{ActorRef, ActorSystem}
 import rhttpc.transport.{DelayedMessage, Message, Publisher}
 
 import scala.concurrent.Future

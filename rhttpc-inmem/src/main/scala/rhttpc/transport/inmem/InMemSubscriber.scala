@@ -15,9 +15,9 @@
  */
 package rhttpc.transport.inmem
 
-import akka.actor.ActorRef
-import akka.pattern._
-import akka.util.Timeout
+import org.apache.pekko.actor.ActorRef
+import org.apache.pekko.pattern._
+import org.apache.pekko.util.Timeout
 import rhttpc.transport.Subscriber
 
 import scala.concurrent.Future

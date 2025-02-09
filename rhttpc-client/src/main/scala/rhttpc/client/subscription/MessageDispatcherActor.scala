@@ -15,7 +15,7 @@
  */
 package rhttpc.client.subscription
 
-import akka.actor.{Actor, ActorLogging, ActorRef, Status}
+import org.apache.pekko.actor.{Actor, ActorLogging, ActorRef, Status}
 import rhttpc.client.protocol.{Correlated, Exchange}
 
 import scala.util.{Failure, Success}
