@@ -23,10 +23,18 @@ import scala.concurrent.duration._
 class DelayedMessageSpec extends AnyFlatSpec with Matchers {
 
   it should "extract delayed message from properties in various numeric formats" in {
-    val DelayedMessage(_, fromLongDuration, _, _) = Message("fooMsg", Map(MessagePropertiesNaming.delayProperty -> 100L))
-    fromLongDuration shouldEqual (100 millis)
-    val DelayedMessage(_, fromIntDuration, _, _) = Message("fooMsg", Map(MessagePropertiesNaming.delayProperty -> 100))
-    fromIntDuration shouldEqual (100 millis)
+    Message("fooMsg", Map(MessagePropertiesNaming.delayProperty -> 100L)) match {
+      case DelayedMessage(_, fromLongDuration, _, _) =>
+        fromLongDuration shouldEqual (100 millis)
+      case _ =>
+        fail("Not a delayed message")
+    }
+    Message("fooMsg", Map(MessagePropertiesNaming.delayProperty -> 100)) match {
+      case DelayedMessage(_, fromIntDuration, _, _) =>
+        fromIntDuration shouldEqual (100 millis)
+      case _ =>
+        fail("Not a delayed message")
+    }
   }
 
 }

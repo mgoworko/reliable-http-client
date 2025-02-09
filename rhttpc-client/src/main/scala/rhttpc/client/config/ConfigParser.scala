@@ -15,14 +15,15 @@
  */
 package rhttpc.client.config
 
-import org.apache.pekko.actor.ActorSystem
 import com.typesafe.config.Config
-import net.ceedubs.ficus.Ficus._
-import net.ceedubs.ficus.readers.ArbitraryTypeReader._
-import net.ceedubs.ficus.readers.ValueReader
+import org.apache.pekko.actor.ActorSystem
+import rhttpc.client.config.ConfigParserUtils._
 import rhttpc.client.proxy.{BackoffRetry, FailureResponseHandleStrategyChooser, HandleAll, SkipAll}
 import rhttpc.transport.QueueType
 
+import java.time.Duration
+import java.util.concurrent.TimeUnit
+import scala.concurrent.duration.FiniteDuration
 import scala.util.{Success, Try}
 
 object ConfigParser {
@@ -31,31 +32,58 @@ object ConfigParser {
   }
 
   def parse(config: Config, path: String): RhttpcConfig = {
-    config.as[RhttpcConfig](path)
+    val configAtPath = if (path == ".") config else config.getConfig(path)
+    RhttpcConfig(
+      queuesPrefix = configAtPath.getString("queuesPrefix"),
+      batchSize = configAtPath.getInt("batchSize"),
+      parallelConsumers = configAtPath.getInt("parallelConsumers"),
+      retryStrategy = RetryStrategyValueReader.getRetryStrategy(configAtPath, "retryStrategy"),
+      queueType = QueueTypeValueReader.getQueueType(configAtPath, "queueType"),
+    )
   }
-
-  private implicit def failureResponseHandleStrategyChooserReader: ValueReader[FailureResponseHandleStrategyChooser] = RetryStrategyValueReader
-  private implicit def queueTypeReader: ValueReader[QueueType] = QueueTypeValueReader
 }
 
-object RetryStrategyValueReader extends ValueReader[FailureResponseHandleStrategyChooser] {
-  override def read(config: Config, path: String): FailureResponseHandleStrategyChooser = {
-    config.as[Try[String]](path) match {
+object RetryStrategyValueReader {
+  def getRetryStrategy(config: Config, path: String): FailureResponseHandleStrategyChooser = {
+    Try(config.getString(path)) match {
       case Success("handle-all") => HandleAll
       case Success("skip-all") => SkipAll
-      case _ => config.as[BackoffRetry](path)
+      case _ =>
+        BackoffRetry(
+          initialDelay = toFiniteDuration(config.getDuration(s"$path.initialDelay")),
+          multiplier = BigDecimal(config.getDouble(s"$path.multiplier")),
+          maxRetries = config.getInt(s"$path.maxRetries"),
+          deadline = getOptionFromConfig(s"$path.deadline", config, _.getDuration(_)).map(toFiniteDuration),
+        )
     }
   }
 }
 
-object QueueTypeValueReader extends ValueReader[QueueType] {
-  override def read(config: Config, path: String): QueueType = {
-    config.getAs[String](path).fold[QueueType](QueueType.ClassicQueue) {
+object QueueTypeValueReader {
+  def getQueueType(config: Config, path: String): QueueType = {
+    getOptionFromConfig(path, config, _.getString(_)).fold[QueueType](QueueType.ClassicQueue) {
       case "classic" => QueueType.ClassicQueue
       case "quorum" => QueueType.QuorumQueue
-      case other => throw InvalidConfigValueException(s"Invalid value as QueueType=[$other]. Should be one of: classic, quorum.")
+      case other =>
+        throw InvalidConfigValueException(s"Invalid value as QueueType=[$other]. Should be one of: classic, quorum.")
     }
   }
+}
+
+private object ConfigParserUtils {
+  def toFiniteDuration(duration: Duration): FiniteDuration =
+    FiniteDuration(duration.toMillis, TimeUnit.MILLISECONDS)
+
+  def getOptionFromConfig[T](path: String, config: Config, extract: (Config, String) => T): Option[T] = {
+    getFirstDefinedFromConfig(List(path), config, extract)
+  }
+
+  def getFirstDefinedFromConfig[T](paths: List[String], config: Config, extract: (Config, String) => T): Option[T] = {
+    paths
+      .find(config.hasPath)
+      .map(extract(config, _))
+  }
+
 }
 
 case class RhttpcConfig(queuesPrefix: String,

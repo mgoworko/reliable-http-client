@@ -55,7 +55,7 @@ class MockTransport(awaitCond: (() => Boolean) => Unit)(implicit ec: ExecutionCo
           case Correlated(msg, correlationId) =>
             _publicationPromise = Promise[Unit]()
             _replySubscriptionPromise = Promise[String]()
-            implicit val timeout = Timeout(5 seconds)
+            implicit val timeout: Timeout = Timeout(5 seconds)
             _replySubscriptionPromise.future.onComplete {
               case Success(result) =>
                 _ackOnReplySubscriptionFuture = consumer ? Correlated(SuccessExchange(msg, result), correlationId)

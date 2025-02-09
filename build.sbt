@@ -2,8 +2,8 @@ import com.typesafe.sbt.packager.docker.DockerPlugin.autoImport._
 import sbt.Keys._
 import ReleaseTransformations._
 
-val defaultScalaVersion = "2.13.16"
-val scalaVersions = Seq(defaultScalaVersion)
+val defaultScalaVersion = "3.3.5"
+val scalaVersions = Seq("2.13.16", defaultScalaVersion)
 
 val commonSettings =
   Seq(
@@ -128,7 +128,6 @@ lazy val amqpTransport = (project in file("rhttpc-amqp")).
         "org.apache.pekko"         %% "pekko-stream"                  % pekkoV,
         "com.rabbitmq"              % "amqp-client"                   % amqpcV,
         "com.iheart"               %% "ficus"                         % ficusV,
-        "org.scala-lang"            % "scala-reflect"                 % scalaVersion.value,
         "org.apache.pekko"         %% "pekko-testkit"                 % pekkoV         % "test",
         "org.scalatest"            %% "scalatest"                     % scalaTestV    % "test",
 

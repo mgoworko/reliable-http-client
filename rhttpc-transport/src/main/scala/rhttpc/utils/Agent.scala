@@ -50,7 +50,7 @@ object Agent {
     def alterOff(f: T => T)(implicit ec: ExecutionContext): Future[T] = {
       val result = Promise[T]()
       withinTransaction(new Runnable {
-        def run = {
+        def run() = {
           updater.suspend()
           result.completeWith(
             Future(try ref.single.transformAndGet(f)

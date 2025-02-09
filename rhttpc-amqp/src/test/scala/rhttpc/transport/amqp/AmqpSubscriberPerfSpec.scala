@@ -22,7 +22,7 @@ import org.apache.pekko.http.scaladsl.model.{HttpRequest, HttpResponse}
 import org.apache.pekko.pattern._
 import org.apache.pekko.stream.Materializer
 import org.apache.pekko.testkit.{TestKit, TestProbe}
-import dispatch.url
+import dispatch._
 import org.scalatest.{BeforeAndAfterAll, Ignore}
 import org.scalatest.flatspec.AnyFlatSpecLike
 import rhttpc.transport.{Deserializer, InboundQueueData, OutboundQueueData, QueueType, Serializer}
