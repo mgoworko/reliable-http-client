@@ -2,8 +2,8 @@ import com.typesafe.sbt.packager.docker.DockerPlugin.autoImport._
 import sbt.Keys._
 import ReleaseTransformations._
 
-val defaultScalaVersion = "2.13.6"
-val scalaVersions = Seq("2.12.13", defaultScalaVersion)
+val defaultScalaVersion = "2.13.16"
+val scalaVersions = Seq(defaultScalaVersion)
 
 val commonSettings =
   Seq(
@@ -42,10 +42,6 @@ val commonSettings =
       "Local Maven Repository" at "file://"+Path.userHome.absolutePath+"/.m2/repository",
       Resolver.jcenterRepo
     ),
-    ThisBuild / libraryDependencies ++= Seq(
-      compilerPlugin("com.github.ghik" % "silencer-plugin" % "1.7.5" cross CrossVersion.full),
-      "com.github.ghik" % "silencer-lib" % "1.7.5" % Provided cross CrossVersion.full
-    )
   )
 
 val publishSettings = Seq(
@@ -74,25 +70,22 @@ val publishSettings = Seq(
   }
 )
 
-val akkaV             = "2.6.18"
-val akkaHttpV         = "10.2.6"
+val akkaV             = "2.6.21"
+val akkaHttpV         = "10.2.10"
 val amqpcV            = "3.6.6"
-val argonaut62MinorV  = ".3"
-val betterFilesV      = "3.9.1"
-val commonsIoV        = "2.5"
-val dispatchV         = "1.2.0"
-val ficusV            = "1.4.7"
+val betterFilesV      = "3.9.2"
+val commonsIoV        = "2.18.0"
+val dispatchV         = "2.0.0"
+val ficusV            = "1.5.2"
 val flywayV           = "6.2.4"
-val hsqldbV           = "2.3.6"
-val json4sV           = "3.6.11"
+val hsqldbV           = "2.7.4"
 val jaxbV             = "2.3.1"
-val logbackV          = "1.1.11"
-val scalaCompatV      = "2.4.4"
-val scalaTestV        = "3.2.9"
-val slf4jV            = "1.7.26"
-val slickV            = "3.3.2"
+val logbackV          = "1.5.16"
+val scalaTestV        = "3.2.19"
+val slf4jV            = "1.7.36"
+val slickV            = "3.5.2"
 val scalaStmV         = "0.11.1"
-val testContainersV   = "0.39.5"
+val testContainersV   = "0.41.8"
 
 lazy val transport = (project in file("rhttpc-transport")).
   settings(commonSettings).
@@ -135,7 +128,6 @@ lazy val amqpTransport = (project in file("rhttpc-amqp")).
         "com.typesafe.akka"        %% "akka-stream"                   % akkaV,
         "com.rabbitmq"              % "amqp-client"                   % amqpcV,
         "com.iheart"               %% "ficus"                         % ficusV,
-        "org.scala-lang.modules"   %% "scala-collection-compat"       % scalaCompatV,
         "org.scala-lang"            % "scala-reflect"                 % scalaVersion.value,
         "com.typesafe.akka"        %% "akka-testkit"                  % akkaV         % "test",
         "org.scalatest"            %% "scalatest"                     % scalaTestV    % "test",
@@ -167,34 +159,6 @@ lazy val amqpJdbcTransport = (project in file("rhttpc-amqp-jdbc")).
   ).
   dependsOn(amqpTransport)
 
-lazy val json4sSerialization = (project in file("rhttpc-json4s")).
-  settings(commonSettings).
-  settings(publishSettings).
-  settings(
-    name := "rhttpc-json4s",
-    libraryDependencies ++= {
-      Seq(
-        "org.json4s"               %% "json4s-native"                 % json4sV,
-        "org.scala-lang"            % "scala-reflect"                 % scalaVersion.value,
-        "org.scalatest"            %% "scalatest"                     % scalaTestV    % "test"
-      )
-    }
-  ).
-  dependsOn(transport)
-
-lazy val argonaut62Serialization = (project in file("rhttpc-argonaut_6.2")).
-  settings(commonSettings).
-  settings(publishSettings).
-  settings(
-    name := "rhttpc-argonaut_6.2",
-    libraryDependencies ++= {
-      Seq(
-        "io.argonaut"              %% "argonaut"                      % s"6.2$argonaut62MinorV"
-      )
-    }
-  ).
-  dependsOn(transport)
-
 lazy val client = (project in file("rhttpc-client")).
   settings(commonSettings).
   settings(publishSettings).
@@ -212,38 +176,6 @@ lazy val client = (project in file("rhttpc-client")).
   ).
   dependsOn(transport).
   dependsOn(inMemTransport % "test")
-
-lazy val akkaHttpClient = (project in file("rhttpc-akka-http")).
-  settings(commonSettings).
-  settings(publishSettings).
-  settings(
-    name := "rhttpc-akka-http",
-    libraryDependencies ++= {
-      Seq(
-        "com.typesafe.akka"        %% "akka-http"                     % akkaHttpV,
-        "org.scala-lang.modules"   %% "scala-collection-compat"       % scalaCompatV,
-        "org.scalatest"            %% "scalatest"                     % scalaTestV    % "test"
-      )
-    }
-  ).
-  dependsOn(client).
-  dependsOn(amqpTransport).
-  dependsOn(json4sSerialization).
-  dependsOn(inMemTransport)
-
-lazy val akkaPersistence = (project in file("rhttpc-akka-persistence")).
-  settings(commonSettings).
-  settings(publishSettings).
-  settings(
-    name := "rhttpc-akka-persistence",
-    libraryDependencies ++= {
-      Seq(
-        "com.typesafe.akka"        %% "akka-persistence"              % akkaV
-      )
-    }
-  ).
-  dependsOn(client % "compile->compile;test->test").
-  dependsOn(json4sSerialization)
 
 lazy val sampleEcho = (project in file("sample/sample-echo")).
   settings(commonSettings).
@@ -264,31 +196,6 @@ lazy val sampleEcho = (project in file("sample/sample-echo")).
   )
   .dependsOn(transport)
 
-lazy val sampleApp = (project in file("sample/sample-app")).
-  settings(commonSettings).
-  settings(Seq(
-    bashScriptExtraDefines += s"""addJava "-Dlogback.configurationFile=/etc/${name.value}/logback.xml""""
-  )).
-  enablePlugins(DockerPlugin).
-  enablePlugins(JavaAppPackaging).
-  settings(
-    libraryDependencies ++= {
-      Seq(
-        "com.typesafe.akka"        %% "akka-http"                     % akkaHttpV,
-        "org.iq80.leveldb"          % "leveldb"                       % "0.12",
-        "org.fusesource.leveldbjni" % "leveldbjni-all"                % "1.8",
-        "com.typesafe.akka"        %% "akka-slf4j"                    % akkaV,
-        "ch.qos.logback"            % "logback-classic"               % logbackV,
-        "com.typesafe.akka"        %% "akka-testkit"                  % akkaV         % "test",
-        "org.scalatest"            %% "scalatest"                     % scalaTestV    % "test"
-      )
-    },
-    dockerExposedPorts := Seq(8081),
-    publish / skip := true
-  ).
-  dependsOn(akkaHttpClient).
-  dependsOn(akkaPersistence)
-
 lazy val testProj = (project in file("sample/test")).
   settings(commonSettings).
   settings(
@@ -306,7 +213,6 @@ lazy val testProj = (project in file("sample/test")).
     },
     Test / Keys.test  := (Test / Keys.test).dependsOn(
       sampleEcho / Docker / publishLocal,
-      sampleApp / Docker / publishLocal
     ).value,
     publish / skip := true
   )
@@ -314,10 +220,8 @@ lazy val testProj = (project in file("sample/test")).
 lazy val root = (project in file("."))
   .aggregate(
     transport, inMemTransport, amqpTransport, amqpJdbcTransport,
-    json4sSerialization, argonaut62Serialization,
-    client, akkaHttpClient,
-    akkaPersistence,
-    sampleEcho, sampleApp, testProj)
+    client,
+    sampleEcho, testProj)
   .settings(commonSettings)
   .settings(publishSettings)
   .settings(

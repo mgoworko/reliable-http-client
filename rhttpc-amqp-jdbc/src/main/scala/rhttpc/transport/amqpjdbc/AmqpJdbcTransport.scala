@@ -18,7 +18,6 @@ package rhttpc.transport.amqpjdbc
 import _root_.slick.jdbc.{JdbcBackend, JdbcProfile}
 import akka.actor.{ActorRef, ActorSystem}
 import rhttpc.utils.Agent
-import com.github.ghik.silencer.silent
 import com.rabbitmq.client.AMQP.Queue.DeclareOk
 import com.rabbitmq.client.{AMQP, Connection}
 import rhttpc.transport.SerializingPublisher.SerializedMessage
@@ -26,6 +25,7 @@ import rhttpc.transport._
 import rhttpc.transport.amqp.{AmqpDeclareInboundQueueData, AmqpDeclareOutboundQueueData, AmqpQueueStats, AmqpTransport}
 import rhttpc.transport.amqpjdbc.slick.SlickJdbcScheduledMessagesRepository
 
+import scala.annotation.nowarn
 import scala.collection.concurrent.TrieMap
 import scala.concurrent.Future
 import scala.concurrent.duration._
@@ -45,7 +45,7 @@ private[amqpjdbc] class AmqpJdbcTransportImpl(underlying: AmqpTransport,
 
   private val schedulersCache = TrieMap[String, AmqpJdbcScheduler[_]]()
 
-  @silent private val publisherQueueNamesAgent = Agent[Set[String]](Set.empty)
+  @nowarn private val publisherQueueNamesAgent = Agent[Set[String]](Set.empty)
 
   override def publisher[PubMsg: Serializer](queueData: OutboundQueueData): Publisher[PubMsg] = {
     val underlyingPublisher = underlying.publisher[PubMsg](queueData).asInstanceOf[SerializingPublisher[PubMsg]]

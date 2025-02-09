@@ -19,12 +19,12 @@ import akka.actor._
 import rhttpc.utils.Agent
 import akka.pattern._
 import akka.util.Timeout
-import com.github.ghik.silencer.silent
 import com.rabbitmq.client._
 import org.slf4j.LoggerFactory
 import rhttpc.transport._
 import rhttpc.utils.Recovered._
 
+import scala.annotation.nowarn
 import scala.concurrent.duration._
 import scala.concurrent.{Future, Promise}
 import scala.util.{Failure, Success, Try}
@@ -42,7 +42,7 @@ private[amqp] abstract class AmqpSubscriber[Sub](channel: Channel,
 
   private lazy val logger = LoggerFactory.getLogger(getClass)
 
-  @silent private val pendingConsumePromises = Agent[Set[Promise[Unit]]](Set.empty)
+  @nowarn private val pendingConsumePromises = Agent[Set[Promise[Unit]]](Set.empty)
 
   @volatile private var consumerTag: Option[String] = None
 
@@ -134,7 +134,6 @@ trait SendingFullMessage[Sub] { self: AmqpSubscriber[Sub] =>
   // that is why if you ever add a new string property here use _.toString instead of casting (we do not Cast to LongString to avoid weird dependencies
   // between modules, and casting to String would result in ClassCastException)
   override protected def prepareMessage(deserializedMessage: Sub, properties: AMQP.BasicProperties): Any = {
-    import scala.collection.compat._
     import scala.jdk.CollectionConverters._
     Message(deserializedMessage, Option(properties.getHeaders).map(_.asInstanceOf[java.util.Map[String, Any]].asScala.toMap).getOrElse(Map.empty))
   }

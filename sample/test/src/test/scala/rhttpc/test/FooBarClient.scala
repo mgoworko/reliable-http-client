@@ -15,12 +15,13 @@
  */
 package rhttpc.test
 
+import dispatch.retry.Success
 import dispatch.{Future => DispatchFuture, _}
 
 import scala.concurrent._
 
 class FooBarClient(baseUrl: => Req) {
-  implicit val successPredicate = new retry.Success[Unit.type](_ => true)
+  implicit val successPredicate: Success[Unit.type] = new retry.Success[Unit.type](_ => true)
 
   private val httpClient = Http.default
     .closeAndConfigure(

@@ -26,7 +26,7 @@ import scala.concurrent.{Await, ExecutionContext, Future}
 class ReliableClientFutureSpec extends TestKit(ActorSystem("ReliableClientFutureSpec")) with ReliableClientBaseSpec with Matchers {
 
   override protected implicit def ec: ExecutionContext = system.dispatcher
-  implicit val timeout = Timeout(3 seconds)
+  implicit val timeout: Timeout = Timeout(3 seconds)
 
   it should "send request and reply after subscription registration" in { fixture =>
     val sendFuture = fixture.client.send("foo").toFuture

@@ -20,18 +20,19 @@ import rhttpc.utils.Agent
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.server._
 import akka.pattern._
-import com.github.ghik.silencer.silent
+import akka.stream.Materializer
 
+import scala.annotation.nowarn
 import scala.concurrent.Future
 import scala.concurrent.duration._
 
 object EchoApp extends App with Directives {
 
-  implicit val system = ActorSystem("rhttpc-echo")
-  implicit val materializer = akka.stream.Materializer.matFromSystem
+  implicit val system: ActorSystem = ActorSystem("rhttpc-echo")
+  implicit val materializer: Materializer = akka.stream.Materializer.matFromSystem
   import system.dispatcher
 
-  @silent val retryAgent = Agent(Map.empty[String, Int])
+  @nowarn val retryAgent = Agent(Map.empty[String, Int])
 
   val route = (post & entity(as[String])) {
     case request@FailNTimesThanReplyWithMessage(failsCount, eventualMessage) =>
@@ -68,7 +69,7 @@ object EchoApp extends App with Directives {
 
 
 object FailNTimesThanReplyWithMessage {
-  private val Regex = "fail-(\\d*)-times-than-reply-with-(.*)".r("failsCount", "eventualMessage")
+  @nowarn private val Regex = "fail-(\\d*)-times-than-reply-with-(.*)".r("failsCount", "eventualMessage")
 
   def unapply(str: String): Option[(Int, String)] = str match {
     case Regex(failsCount, eventualMessage) => Some(failsCount.toInt, eventualMessage)

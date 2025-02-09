@@ -17,13 +17,13 @@ package rhttpc.transport.amqp
 
 import java.io._
 import rhttpc.utils.Agent
-import com.github.ghik.silencer.silent
 import com.rabbitmq.client._
 import org.slf4j.LoggerFactory
 import rhttpc.transport.SerializingPublisher.SerializedMessage
 import rhttpc.transport.{Message, Publisher, Serializer, SerializingPublisher}
 import rhttpc.utils.Recovered._
 
+import scala.annotation.nowarn
 import scala.concurrent.{ExecutionContext, Future, Promise}
 
 private[amqp] class AmqpPublisher[PubMsg](channel: Channel,
@@ -36,7 +36,7 @@ private[amqp] class AmqpPublisher[PubMsg](channel: Channel,
 
   private lazy val logger = LoggerFactory.getLogger(getClass)
 
-  @silent private val seqNoOnAckPromiseAgent = Agent[Map[Long, Promise[Unit]]](Map.empty)
+  @nowarn private val seqNoOnAckPromiseAgent = Agent[Map[Long, Promise[Unit]]](Map.empty)
 
   override private[rhttpc] def publishSerialized(msg: SerializedMessage): Future[Unit] = {
     val properties = prepareProperties.applyOrElse(

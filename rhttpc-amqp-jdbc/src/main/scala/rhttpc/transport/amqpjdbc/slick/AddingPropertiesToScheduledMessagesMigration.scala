@@ -40,7 +40,6 @@ trait AddingPropertiesToScheduledMessagesMigration extends SlickJdbcMigration {
   protected val messageMaxSize = 8192
   protected val propertiesMaxSize = 256
 
-  import scala.collection.compat._
   import scala.jdk.CollectionConverters._
 
   protected implicit def propertiesMapper: JdbcType[Map[String, Any]] = MappedColumnType.base[Map[String, Any], String](

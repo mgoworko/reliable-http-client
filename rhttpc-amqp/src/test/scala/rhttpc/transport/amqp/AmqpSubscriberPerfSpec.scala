@@ -20,6 +20,7 @@ import akka.actor.{Actor, ActorSystem, Props}
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.model.{HttpRequest, HttpResponse}
 import akka.pattern._
+import akka.stream.Materializer
 import akka.testkit.{TestKit, TestProbe}
 import dispatch.url
 import org.scalatest.{BeforeAndAfterAll, Ignore}
@@ -34,15 +35,11 @@ import scala.util.{Random, Try}
 class AmqpSubscriberPerfSpec extends TestKit(ActorSystem("AmqpSubscriberPerfSpec")) with AnyFlatSpecLike with BeforeAndAfterAll {
   import system.dispatcher
 
-  implicit val materializer = akka.stream.Materializer.matFromSystem
+  implicit val materializer: Materializer = akka.stream.Materializer.matFromSystem
 
-  implicit def serializer[Msg] = new Serializer[Msg] {
-    override def serialize(obj: Msg): String = obj.toString
-  }
+  implicit def serializer[Msg]: Serializer[Msg] = (obj: Msg) => obj.toString
 
-  implicit def deserializer[Msg] = new Deserializer[Msg] {
-    override def deserialize(value: String): Try[Msg] = Try(value.asInstanceOf[Msg])
-  }
+  implicit def deserializer[Msg]: Deserializer[Msg] = (value: String) => Try(value.asInstanceOf[Msg])
 
   val queueName = "request"
   val outboundQueueData = OutboundQueueData(queueName, autoDelete = true, durability = false, queueType = QueueType.ClassicQueue)

@@ -27,7 +27,6 @@ trait AmqpDefaults
   extends AmqpQueuesNaming
     with AmqpExchangesNaming {
 
-  import scala.collection.compat._
   import scala.jdk.CollectionConverters._
 
   private[rhttpc] final val consumeTimeout: FiniteDuration = 5 minutes
