@@ -3,9 +3,9 @@ jobs:
   build:
     working_directory: ~/arkadius/reliable-http-client
     docker:
-      - image: openjdk:8
+      - image: amazoncorretto:11
     environment:
-      SBT_VERSION: 1.5.1
+      SBT_VERSION: 1.10.7
       DOCKER_VERSION: 18.06.3-ce
       TESTCONTAINERS_RYUK_DISABLED: "true"
     steps:
