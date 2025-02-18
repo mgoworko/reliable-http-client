@@ -3,7 +3,7 @@ jobs:
   build:
     working_directory: ~/arkadius/reliable-http-client
     docker:
-      - image: amazoncorretto:11
+      - image: openjdk:11
     environment:
       SBT_VERSION: 1.10.7
       DOCKER_VERSION: 18.06.3-ce
