@@ -37,7 +37,7 @@ val commonSettings =
     headerEmptyLine := false,
     homepage := Some(url("https://github.com/arkadius/reliable-http-client")),
     dockerRepository := Some("arkadius"),
-    dockerBaseImage := "openjdk:8",
+    dockerBaseImage := "amazoncorretto:11",
     resolvers ++= Seq(
       "Local Maven Repository" at "file://"+Path.userHome.absolutePath+"/.m2/repository",
       Resolver.jcenterRepo
